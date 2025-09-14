@@ -97,20 +97,29 @@
 });
 
 
-  const grid = document.querySelector(".projects-grid");
-  const cards = document.querySelectorAll(".project-card");
+const grid = document.querySelector(".projects-grid");
+const cards = document.querySelectorAll(".project-card");
 
+if (grid && cards.length > 0) {
   let index = 0;
 
   function updateCarousel() {
+    const containerWidth = grid.parentElement.offsetWidth;
+    const cardWidth = cards[0].offsetWidth + 20; // width + gap
+    const centerOffset = (containerWidth / 2) - (cards[0].offsetWidth / 2);
+
+    let moveX = -(index * cardWidth) + centerOffset;
+
+    // Batas kiri dan kanan
+    const maxOffset = 0;
+    const minOffset = -(cards.length * cardWidth - containerWidth);
+    moveX = Math.min(maxOffset, Math.max(moveX, minOffset));
+
+    grid.style.transform = `translateX(${moveX}px)`;
+
+    // Highlight card aktif
     cards.forEach(card => card.classList.remove("active"));
     cards[index].classList.add("active");
-
-    const cardWidth = cards[0].offsetWidth + 40; // lebar card + margin
-    const centerOffset = (grid.parentElement.offsetWidth / 2) - (cards[0].offsetWidth / 2);
-
-    const moveX = -(index * cardWidth) + centerOffset;
-    grid.style.transform = `translateX(${moveX}px)`;
   }
 
   function nextSlide() {
@@ -118,6 +127,7 @@
     updateCarousel();
   }
 
-  setInterval(nextSlide, 3000); // auto ganti tiap 3 detik
+  setInterval(nextSlide, 3000);
   window.addEventListener("resize", updateCarousel);
   updateCarousel();
+}
