@@ -78,7 +78,7 @@
   const observerOptions = {
     root: null,
     rootMargin: '0px',
-    threshold: 0.5
+    threshold: 0.0
   };
 
   const observer = new IntersectionObserver((entries, observer) => {
@@ -96,38 +96,18 @@
   });
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+  const cards = document.querySelectorAll(".project-card");
 
-const grid = document.querySelector(".projects-grid");
-const cards = document.querySelectorAll(".project-card");
+  cards.forEach(card => {
+    let fadeDelay = 0;
+    if (card.classList.contains("delay-1")) fadeDelay = 1500;
+    else if (card.classList.contains("delay-2")) fadeDelay = 1500;
+    else if (card.classList.contains("delay-3")) fadeDelay = 1500;
 
-if (grid && cards.length > 0) {
-  let index = 0;
-
-  function updateCarousel() {
-    const containerWidth = grid.parentElement.offsetWidth;
-    const cardWidth = cards[0].offsetWidth + 20; // width + gap
-    const centerOffset = (containerWidth / 2) - (cards[0].offsetWidth / 2);
-
-    let moveX = -(index * cardWidth) + centerOffset;
-
-    // Batas kiri dan kanan
-    const maxOffset = 0;
-    const minOffset = -(cards.length * cardWidth - containerWidth);
-    moveX = Math.min(maxOffset, Math.max(moveX, minOffset));
-
-    grid.style.transform = `translateX(${moveX}px)`;
-
-    // Highlight card aktif
-    cards.forEach(card => card.classList.remove("active"));
-    cards[index].classList.add("active");
-  }
-
-  function nextSlide() {
-    index = (index + 1) % cards.length;
-    updateCarousel();
-  }
-
-  setInterval(nextSlide, 3000);
-  window.addEventListener("resize", updateCarousel);
-  updateCarousel();
-}
+    // Tambahkan flip 5 detik setelah fade-in selesai
+    setTimeout(() => {
+      card.classList.add("flip");
+    }, fadeDelay + 3000);
+  });
+});
