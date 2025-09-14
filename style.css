@@ -699,7 +699,7 @@
         padding: 2rem;
       }
 
-      .skills-grid, .projects-grid, .contact-info {
+      .skills-grid, .projects-grid, .contact-info, .project-card, .project-image {
         grid-template-columns: 1fr;
         gap: 2rem;
       }
@@ -730,3 +730,4 @@
         padding: 1.5rem;
       }
     }
+
